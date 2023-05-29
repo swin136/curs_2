@@ -5,7 +5,7 @@ Skypro. Профессия "Python-разработчик" ПОТОК
 Урок  6. Локальный Python и фaйлы. Домашнее задание 
 Родительский Дмитрий Вячеславович
 """
-from random import shuffle as shufle_userword
+from random import shuffle as shufle_userword, sample
 import os
 
 # Влючение-выключение отладочных сообщений (True/False)
@@ -21,20 +21,24 @@ HISTORY_FILE = 'history.txt'
 TRUE_ANSWER = "Верно! Вы получаете 10 очков."
 BONUS = 10
 
+# количество вопросов для тестирования пользователя
+TASK_COUNT = 25
+
 def get_list_for_user():
     """
     Функция получает список слов из файла
-    обрезает сисмволы перевода строки
-    возращает список слов для тестирования пользователя 
+    обрезает сисмволы перевода строки, получает ис списка 
+    случайные TASK_COUNT значений и
+    возращает список перемещанных слов для тестирования пользователя 
     в формате [<str>, <str>, ... <str>]
     """
     f = open(file=WORDS_FILE, mode="rt")
     try:
-        return [str(item).replace("\n", "") for item in f.readlines()]
+        return sample([str(item).replace("\n", "") for item in f.readlines()], TASK_COUNT)
     finally: f.close()
 
 
-def shuffle_word(src_word : str):
+def get_shuffle_word(src_word : str):
     """
     Функция перемешивает буквы в слове случайным порядком
     возврашает слово типа str
@@ -99,7 +103,7 @@ def main():
     # Считываем из файла список слов для тестирования
     # и перемешиваем его
     user_tasks = get_list_for_user()
-    shufle_userword(user_tasks)
+    # shufle_userword(user_tasks)
     if len(user_tasks) == 0:
         print("Что-то не так со списком заданий")
         print("Пока, пока ....")
@@ -116,7 +120,7 @@ def main():
         if DEBUG: print(f"Исходное слово >>>> {word} <<<<")
         
         # Выводим слово с перемешанными буквами и ждем ответа пользователя
-        answer = input(f"Угадай слово {shuffle_word(word)}: ").lower().strip()
+        answer = input(f"Угадай слово {get_shuffle_word(word)}: ").lower().strip()
         # Пользователь угадал слово
         if answer == word:
             print(f"{TRUE_ANSWER}")
