@@ -30,11 +30,12 @@ def get_list_for_user():
     обрезает сисмволы перевода строки, получает ис списка 
     случайные TASK_COUNT значений и
     возращает список перемещанных слов для тестирования пользователя 
+    Обязательно отсекаем возможно пустые строки в исходной файле !
     в формате [<str>, <str>, ... <str>]
     """
     f = open(file=WORDS_FILE, mode="rt")
     try:
-        return sample([str(item).replace("\n", "") for item in f.readlines()], TASK_COUNT)
+        return sample([str(item).replace("\n", "") for item in f.readlines() if len(str(item).strip()) > 0], TASK_COUNT)
     finally: f.close()
 
 
@@ -152,6 +153,7 @@ def main():
 # Каркас нашей программы
 if __name__ == "__main__":
     main()
+
 
 ################
 
