@@ -116,11 +116,13 @@ def main():
         if user_name != "": break
     # Начинаем наш цикл
     total = 0
+    # счетчик слов
+    i = 1
     for word in user_tasks:
         if DEBUG: print(f"Исходное слово >>>> {word} <<<<")
-        
         # Выводим слово с перемешанными буквами и ждем ответа пользователя
-        answer = input(f"Угадай слово {get_shuffle_word(word)}: ").lower().strip()
+        answer = input(f"Угадай слово № {i} >>>> {get_shuffle_word(word)}: ").lower().strip()
+        i += 1
         # Пользователь угадал слово
         if answer == word:
             print(f"{TRUE_ANSWER}")
