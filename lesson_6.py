@@ -5,7 +5,7 @@ Skypro. Профессия "Python-разработчик" ПОТОК
 Урок  6. Локальный Python и фaйлы. Домашнее задание 
 Родительский Дмитрий Вячеславович
 """
-import random
+from random import shuffle as shufle_userword
 import os
 
 # Влючение-выключение отладочных сообщений (True/False)
@@ -45,7 +45,7 @@ def shuffle_word(src_word : str):
     shuffle_word = src_word 
     while shuffle_word == src_word:
         lst = [letter for letter in src_word]
-        random.shuffle(lst)
+        shufle_userword(lst)
         shuffle_word = "".join(lst)
     return shuffle_word
 
@@ -98,7 +98,7 @@ def main():
     # Считываем из файла список слов для тестирования
     # и перемешиваем его
     user_tasks = get_list_for_user()
-    random.shuffle(user_tasks)
+    shufle_userword(user_tasks)
     if len(user_tasks) == 0:
         print("Что-то не так со списком заданий")
         print("Пока, пока ....")

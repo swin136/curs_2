@@ -14,3 +14,6 @@ step
 wind
 ковер
 рокот
+kotlin
+java
+golang
