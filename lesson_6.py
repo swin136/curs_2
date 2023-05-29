@@ -40,7 +40,7 @@ def shuffle_word(src_word : str):
     возврашает слово типа str
     В процессе отладки несколько раз перемешиваемое слово
     совпадало с исходным, поэтому добавил цикл while
-    <void>
+    возврат <None>
     """
     shuffle_word = src_word 
     while shuffle_word == src_word:
@@ -53,7 +53,7 @@ def shuffle_word(src_word : str):
 def add_history_to_file(user_name : str, score : int):
     """
     Добавляем статистику в файл по текущей игре
-     <void>
+    возврат <None>
     """
     f = open(file=HISTORY_FILE, mode="at")
     try: f.write(f"{user_name} {score}\n")
@@ -92,6 +92,7 @@ def read_user_history(user_name : str):
 def main():
     """
     Основная функция программы
+    возврат <None>
     """
     # Очищаем консоль
     os.system('cls')
