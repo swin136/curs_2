@@ -48,7 +48,6 @@ def get_shuffle_word(src_word : str):
     """
     shuffle_word = src_word 
     while shuffle_word == src_word:
-        # print(shuffle_word)
         lst = [letter for letter in src_word]
         shuffle(lst)
         shuffle_word = "".join(lst)
