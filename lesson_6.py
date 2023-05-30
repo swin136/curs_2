@@ -9,7 +9,7 @@ from random import shuffle, sample
 import os
 
 # Влючение-выключение отладочных сообщений (True/False)
-DEBUG = bool(0)
+IS_DEBUG_MSG = bool(0)
 
 # Файлы для работы программы
 # для хранения списка слов для тестирования
@@ -18,22 +18,22 @@ WORDS_FILE = 'words.txt'
 HISTORY_FILE = 'history.txt'
 
 
-TRUE_ANSWER = "Верно! Вы получаете 10 очков."
+TRUE_ANSWER_MSG = "Верно! Вы получаете 10 очков."
 BONUS = 10
 
 # количество вопросов для тестирования пользователя
 TASK_COUNT = 25
 
-def get_list_for_user():
+def get_list_for_user_from_file(fname : str):
     """
-    Функция получает список слов из файла
+    Функция получает список слов из файла fname 
     обрезает сисмволы перевода строки, получает ис списка 
     случайные TASK_COUNT значений и
     возращает список перемещанных слов для тестирования пользователя 
     Обязательно отсекаем возможно пустые строки в исходной файле !
     в формате [<str>, <str>, ... <str>]
     """
-    f = open(file=WORDS_FILE, mode="rt")
+    f = open(file=fname, mode="rt")
     try:
         return sample([str(item).replace("\n", "") for item in f.readlines() if len(str(item).strip()) > 0], TASK_COUNT)
     finally: f.close()
@@ -55,17 +55,17 @@ def get_shuffle_word(src_word : str):
     return shuffle_word
 
 
-def add_history_to_file(user_name : str, score : int):
+def add_history_to_file(user_name : str, score : int, fname : str):
     """
     Добавляем статистику в файл по текущей игре
     возврат <None>
     """
-    f = open(file=HISTORY_FILE, mode="at")
+    f = open(file=fname, mode="at")
     try: f.write(f"{user_name} {score}\n")
     finally: f.close()
 
 
-def read_user_history(user_name : str):
+def read_user_history(user_name : str, fname : str):
     """
     Получаем статистику игр пользователся
     по имени
@@ -73,7 +73,7 @@ def read_user_history(user_name : str):
     [<Всего игр> : int,  <Лучший результат> : int]
     """
     # Читаем файл с историей игр в набор строк
-    f = open(file=HISTORY_FILE, mode="rt")
+    f = open(file=fname, mode="rt")
     try:
         lst = [str(item).replace("\n", "") for item in f.readlines()]
     finally: f.close()
@@ -104,9 +104,9 @@ def main():
     # Считываем из файла список слов для тестирования
     # и перемешиваем его, если не можем загрузить
     # список слов сообщаем пользователю и завершаем программу
-    user_tasks = get_list_for_user()
+    user_tasks_list = get_list_for_user_from_file(fname=WORDS_FILE)
     # shufle_userword(user_tasks)
-    if len(user_tasks) == 0:
+    if len(user_tasks_list) == 0:
         print("Что-то не так со списком заданий")
         print("Пока, пока ....")
         quit()
@@ -121,28 +121,28 @@ def main():
     total = 0
     # счетчик слов
     i = 1
-    for word in user_tasks:
-        if DEBUG: print(f"Исходное слово >>>> {word} <<<<")
+    for word in user_tasks_list:
+        if IS_DEBUG_MSG: print(f"Исходное слово >>>> {word} <<<<")
         # Выводим слово с перемешанными буквами и ждем ответа пользователя
         answer = input(f"Угадай слово № {i} >>>> {get_shuffle_word(word)}: ").lower().strip()
         i += 1
         # Пользователь угадал слово, увеличиваем счетчик бонусов
         if answer == word:
-            print(f"{TRUE_ANSWER}")
+            print(f"{TRUE_ANSWER_MSG}")
             total += BONUS
         # Пользователь не угадал слово ...
         else: print(f"Неверно! Верный ответ – {word}.")
 
     # Добавляем статистику игры пользователя в файл с историей
-    add_history_to_file(user_name=user_name, score=total)
+    add_history_to_file(user_name=user_name, score=total, fname=HISTORY_FILE)
 
     # Получаем статистику пользователя за предыдущие игры
-    user_stat = read_user_history(user_name=user_name)
+    user_stat_list = read_user_history(user_name=user_name, fname=HISTORY_FILE)
 
     # И выводим ее на печать
     print("*" * 20)
-    print(f"Всего игр сыграно: {user_stat[0]}")
-    print(f"Максимальный рекорд: {user_stat[1]}")
+    print(f"Всего игр сыграно: {user_stat_list[0]}")
+    print(f"Максимальный рекорд: {user_stat_list[1]}")
 
     # Прощаемся с юзерем
     input(f"{user_name}, cпасибо за игру!!!. Нажмите Enter для завершения ....")
