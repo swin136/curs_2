@@ -61,7 +61,8 @@ ping
 двор
 space
 procedure
-function
+english
+jump
 
    
     

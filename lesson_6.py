@@ -126,6 +126,7 @@ def main():
     while True:
         user_name = input("Ведите имя пользователя (из одного слова): ").strip().capitalize()
         if user_name != "": break
+    
     # Начинаем наш цикл
     # счетчик набранных баллов
     total = 0
