@@ -21,17 +21,17 @@ HISTORY_FILE = 'history.txt'
 TRUE_ANSWER_MSG = "Верно! Вы получаете 10 очков."
 BONUS = 10
 
-# количество вопросов для тестирования пользователя
+# количество вопросов для тестирования пользователя из общего списка слов
 TASK_COUNT = 25
 
 def get_list_for_user_from_file(fname : str):
     """
     Функция получает список слов из файла fname 
-    обрезает сисмволы перевода строки, получает ис списка 
-    случайные TASK_COUNT значений и
-    возращает список перемещанных слов для тестирования пользователя 
+    обрезает сисмволы перевода строки, получает список 
+    случайных TASK_COUNT значений и возращает список перемещанных 
+    слов для тестирования пользователя.
     Обязательно отсекаем возможно пустые строки в исходной файле !
-    в формате [<str>, <str>, ... <str>]
+    return [<str>, <str>, ... <str>]
     """
     f = open(file=fname, mode="rt")
     try:
@@ -45,7 +45,7 @@ def get_shuffle_word(src_word : str):
     возврашает слово типа str
     В процессе отладки несколько раз перемешиваемое слово
     совпадало с исходным, поэтому добавлен цикл while
-    возврат <None>
+    return <None>
     """
     shuffle_word = src_word 
     while shuffle_word == src_word:
@@ -58,7 +58,7 @@ def get_shuffle_word(src_word : str):
 def add_history_to_file(user_name : str, score : int, fname : str):
     """
     Добавляем статистику в файл по текущей игре
-    возврат <None>
+    return <None>
     """
     f = open(file=fname, mode="at")
     try: f.write(f"{user_name} {score}\n")
@@ -67,10 +67,9 @@ def add_history_to_file(user_name : str, score : int, fname : str):
 
 def read_user_history(user_name : str, fname : str):
     """
-    Получаем статистику игр пользователся
-    по имени
+    Получаем статистику игр конкретного пользователся 
     Фукция возвращает список вида 
-    [<Всего игр> : int,  <Лучший результат> : int]
+    retyrn [<Всего игр> : int,  <Лучший результат> : int]
     """
     # Читаем файл с историей игр в набор строк
     f = open(file=fname, mode="rt")
