@@ -59,7 +59,15 @@ ping
 стекло
 сварка
 двор
+space
+procedure
+function
+
+   
+    
+    
   
+
   
    
     
